@@ -25,7 +25,7 @@ Run the following commands to deploy/destroy your cluster.
 
 Finally to sumbit a topology (without storm installed on your machine) :
 ```
-docker run --rm --entrypoint storm/ubuntu -v <HOST_TOPOLOGY_TARGET_DIR>:/home/storm -c nimbus.host=`docker inspect storm-nimbus | grep IPAddress | cut -d '"' -f 4)` jar <TOPOLOGY_JAR> <TOPOLOGY_ARGS>
+docker run --rm --entrypoint storm -v <HOST_TOPOLOGY_TARGET_DIR>:/home/storm storm/ubuntu -c nimbus.host=`docker inspect storm-nimbus | grep IPAddress | cut -d '"' -f 4)` jar <TOPOLOGY_JAR> <TOPOLOGY_ARGS>
 ```
 
 Port binding 
