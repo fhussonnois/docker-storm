@@ -1,0 +1,7 @@
+storm.zookeeper.servers:
+    - "%ZOOKEEPER%"
+
+nimbus.host: "%NIMBUS%"
+
+drpc.servers:
+  - "%NIMBUS%"

@@ -1,7 +1,0 @@
-storm.zookeeper.servers:
-    - "${zookeeper}"
-
-nimbus.host: "${nimbus}"
-
-drpc.servers:
-  - "${nimbus}"
