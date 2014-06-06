@@ -21,7 +21,7 @@ RUN apt-get install -y oracle-java7-installer
 RUN apt-get update
 
 # Install supervisor and others useful packages 
-RUN apt-get install -y supervisor git vim wget tar
+RUN apt-get install -y supervisor wget tar
 
 # Create storm group and user
 ENV STORM_VERSION 0.9.1-incubating
