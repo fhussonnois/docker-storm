@@ -3,8 +3,7 @@
 #
 # Authors: Florian Hussonnois <florian.hussonnois_gmail.com>
 #
-STORM_IMAGE=storm/ubuntu
-STORM_HOME=/home/storm
+STORM_IMAGE=fhuz/docker-storm
 
 all:
 
@@ -13,7 +12,7 @@ all:
 .SILENT:
 
 storm-build:
-	docker build --rm -t $(STORM_IMAGE) .
+	docker build --rm -t "$(STORM_IMAGE)" .
 
 deploy-cluster: run-zookeeper run-nimbus run-supervisor run-ui
 	docker ps
