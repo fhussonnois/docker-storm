@@ -44,7 +44,7 @@ Finally to sumbit a topology (without storm installed on your machine) :
 ```
 docker run --rm --entrypoint storm  \  
        -v <HOST_TOPOLOGY_TARGET_DIR>:/home/storm fhuz/docker-storm \   
-       -c nimbus.host=`docker inspect storm-nimbus | grep IPAddress | cut -d '"' -f 4)` jar <TOPOLOGY_JAR <TOPOLOGY_ARGS>
+       -c nimbus.host=`docker inspect --format='{{.NetworkSettings.IPAddress}}' storm-nimbus` jar <TOPOLOGY_JAR> <TOPOLOGY_ARGS>
 ```
 
 Port binding 
