@@ -1,4 +1,4 @@
-# apache-storm-0.9.1-incubating
+# apache-storm-0.9.2-incubating
 #
 # VERSION 	1.0
 
@@ -24,7 +24,7 @@ RUN apt-get update
 RUN apt-get install -y supervisor wget tar
 
 # Create storm group and user
-ENV STORM_VERSION 0.9.1-incubating
+ENV STORM_VERSION 0.9.2-incubating
 ENV STORM_HOME /usr/share/apache-storm-$STORM_VERSION
 
 RUN groupadd storm; useradd --gid storm --home-dir /home/storm --create-home --shell /bin/bash storm
