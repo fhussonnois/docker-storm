@@ -1,0 +1,62 @@
+zookeeper:
+  image: jplock/zookeeper
+  ports: 
+    - "2181:2181"
+    - "2888:2888"
+    - "3888:3888"
+nimbus:
+  image: joshjdevl/storm-nimbus
+  ports:
+    - "3773:3773"
+    - "3772:3772"
+    - "6627:6627"
+  links: 
+    - zookeeper:zk
+supervisor:
+  image: joshjdevl/storm-supervisor
+  ports:
+    - "8000:8000"
+    - "6700:6700"
+    - "6701:6701"
+    - "6702:6702"
+    - "6703:6703"
+  links: 
+    - nimbus:nimbus
+    - zookeeper:zk
+ui:
+  image: joshjdevl/storm-ui
+  ports:
+    - "8080:8080"
+  links: 
+    - nimbus:nimbus
+    - zookeeper:zk
+kafka1:
+  image: joshjdevl/kafka
+  ports:
+    - "9091:9091"
+  links:
+    - zookeeper:zk
+  environment:
+    BROKER_ID: 1
+    HOST_IP: 149.204.61.37
+    PORT: 9091
+kafka2:
+  image: joshjdevl/kafka
+  ports:
+    - "9092:9092"
+  links:
+    - zookeeper:zk
+  environment:
+    BROKER_ID: 2
+    HOST_IP: 149.204.61.37
+    PORT: 9092
+kafka3:
+  image: joshjdevl/kafka
+  ports:
+    - "9093:9093"
+  links:
+    - zookeeper:zk
+  environment:
+    BROKER_ID: 3
+    HOST_IP: 149.204.61.37
+    PORT: 9093
