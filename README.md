@@ -54,8 +54,10 @@ Run the following commands to deploy/destroy your cluster.
   - ```make destroy-cluster```
 
 
-Sumbit a topology (without storm installed on your machine) :  
----------------------------------------------------------------
+How to submit a topology 
+------------------------
+Without storm installed on your machine:
+
 ```
 docker run --rm --entrypoint storm  \  
        -v <HOST_TOPOLOGY_TARGET_DIR>:/home/storm fhuz/docker-storm \   
