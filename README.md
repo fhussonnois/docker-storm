@@ -14,7 +14,7 @@ Usage
 -----
 **Pre-Requisites:** You must have a running zookeeper instance in order to start any of the storm daemons. 
 ```
-docker run -p 2181:2181 -p 2888:2888 -p 3888:3888 -h zookeeper –name zookeeper -d jplock/zookeeper;
+docker run -p 2181:2181 -p 2888:2888 -p 3888:3888 -h zookeeper –-name="zookeeper" -d jplock/zookeeper;
 ```
 
 The image contains an **ENTRYPOINT** for running one container per storm daemon as follow:
@@ -25,7 +25,7 @@ For instance to run Nimbus :
 
 ```
 docker run \  
-      --name storm-nimbus -h nimbus \  
+      --name="storm-nimbus" -h nimbus \  
       --expose 6627 --expose 3772 --expose 3773 \  
       --link zookeeper:zk \  
       -d fhuz/docker-storm \  
