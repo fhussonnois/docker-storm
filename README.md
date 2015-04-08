@@ -1,6 +1,6 @@
 docker-storm
 =============
-A Dockerfile for deploying a [Storm](http://storm.incubator.apache.org/) cluster under [supervision](http://supervisord.org/) using [Docker](https://www.docker.io/)
+A Dockerfile for deploying a [Storm](http://storm.apache.org/) cluster under [supervision](http://supervisord.org/) using [Docker](https://www.docker.io/)
  containers. 
 
 The image is registered to the [Docker Index](https://index.docker.io/u/fhuz/docker-storm/)
@@ -31,14 +31,23 @@ docker run \
       -d fhuz/docker-storm \  
       --daemon nimbus
 ```
-Fig
+Docker Compose
 ---
-**Pre-Requisites:** [Install Fig](http://orchardup.github.io/fig/install.html)
+**Pre-Requisites:** [Install Compose](https://docs.docker.com/compose/#installation-and-set-up)
 
-[Fig](http://orchardup.github.io/fig/index.html) is a project from [Orchard](https://www.orchardup.com/), a Docker hosting service.
+[Compose](https://docs.docker.com/compose/) is a tool for defining and running complex applications with Docker.
+  
+  - To start cluster:
+	 
+    **zookeeper:** ```docker-compose -p storm -f ./docker-zookeeper.yml up``` (pass the -d flag to run container in background)
 
-  - To start and run cluster: ```fig up``` (pass the -d flag to run container in background)
-  - Then to stop cluster:  ```fig stop```
+    **storm:** ```docker-compose -p storm -f ./docker-storm.yml up``` (pass the -d flag to run container in background)
+
+  - To stop cluster:
+
+    **zookeeper:** ```docker-compose -p storm -f ./docker-zookeeper.yml stop```
+
+    **storm:** ```docker-compose -p storm -f ./docker-storm.yml stop```
 
 Makefiles
 ---------
@@ -69,15 +78,12 @@ Port binding
 
 Storm UI/Logviewer container ports are exposed to the host system : 
 
-  - Storm UI : [http://localhost:49002/](http://localhost:49002/)
-  - Logviewer : [http://localhost:49003/](http://localhost:49003/)
+  - Storm UI : [http://localhost:8080/](http://localhost:8080/)
+  - Logviewer : [http://localhost:8000/](http://localhost:8000/)
 
 
 Troubleshooting
 ---------------
-If for some reasons you need to debug a container you can use [nsenter](https://github.com/jpetazzo/nsenter): 
+If for some reasons you need to debug a container you can use docker exec command: 
 
-```
-PID=$(docker inspect --format {{.State.Pid}} <container_name_or_ID>)
-nsenter --target $PID --mount --uts --ipc --net --pid
-```
+Example : ```docker exec -it storm_nimbus_1 /bin/bash```

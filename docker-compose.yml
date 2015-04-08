@@ -1,0 +1,19 @@
+zookeeper:
+  extends:
+    file: docker-zookeeper.yml
+    service: zookeeper
+nimbus:
+  extends:
+    file: docker-storm.yml
+    service: nimbus
+
+supervisor:
+  extends:
+    file: docker-storm.yml
+    service: supervisor
+
+ui:
+  extends:
+    file: docker-storm.yml
+    service: ui
+
