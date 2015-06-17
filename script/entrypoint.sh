@@ -60,6 +60,8 @@ if [ ! -z "$ZK_PORT_2181_TCP_ADDR" ]; then
   export ZOOKEEPER_ADDR=$ZK_PORT_2181_TCP_ADDR;
 fi
 
+cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
+
 sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%ui_port%/$UI_PORT/g $STORM_HOME/conf/storm.yaml
