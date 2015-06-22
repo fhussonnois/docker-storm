@@ -38,7 +38,7 @@ rm -rf apache-storm-$STORM_VERSION.tar.gz
 RUN mkdir /var/log/storm ; chown -R storm:storm /var/log/storm ; ln -s /var/log/storm /home/storm/log
 RUN ln -s $STORM_HOME/bin/storm /usr/bin/storm
 ADD conf/cluster.xml $STORM_HOME/logback/cluster.xml
-ADD conf/storm.yaml $STORM_HOME/conf/storm.yaml
+ADD conf/storm.yaml.template $STORM_HOME/conf/storm.yaml.template
 
 # Add scripts required to run storm daemons under supervision
 ADD script/entrypoint.sh /home/storm/entrypoint.sh
