@@ -4,6 +4,8 @@ set -e
 
 STORM_HOME=/c/_git/openSource/docker-storm
 
+cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
+
 usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer]"
 
 if [ $# -lt 1 ]; then
@@ -18,24 +20,36 @@ create_supervisor_conf () {
     echo "Create supervisord configuration for storm daemon $1"
 }
 
-# Command
-case $1 in
-    --daemon)
-        shift
-        for daemon in $*; do
-          create_supervisor_conf $daemon
-        done
-    ;;
-    --all)
-        for daemon in daemons; do
-          create_supervisor_conf $daemon
-        done
-    ;;
-    *)
-        echo $usage
-        exit 1;
-    ;;
-esac
+processingDaemons=0
+processingStormOptions=0
+
+while [[ $# > 0 ]] ; do
+	
+	if [ "$1" == "--daemon" ]; then
+		processingStormOptions=0
+		processingDaemons=1
+		shift
+		continue
+	fi
+	if [ "$1" == "--storm.options" ]; then
+		processingStormOptions=1
+		processingDaemons=0
+		shift
+		continue
+	fi	
+	
+	if [ $processingDaemons -eq 1 ] ; then
+		create_supervisor_conf $1
+	fi
+	
+	if [ $processingStormOptions -eq 1 ] ; then
+		echo $1 >> $STORM_HOME/conf/storm.yaml
+	fi
+	
+	shift
+	
+done
+
 
 # Set nimbus address to localhost by default
 if [ -z "$NIMBUS_ADDR" ]; then
@@ -61,7 +75,7 @@ if [ ! -z "$ZK_PORT_2181_TCP_ADDR" ]; then
   export ZOOKEEPER_ADDR=$ZK_PORT_2181_TCP_ADDR;
 fi
 
-cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
+
 
 sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_HOME/conf/storm.yaml
