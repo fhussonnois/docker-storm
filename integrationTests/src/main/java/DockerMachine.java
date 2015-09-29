@@ -5,7 +5,7 @@ public class DockerMachine {
         this.docker = docker;
     }
 
-    public String getIpAddressOf(String machineName) {
-        return docker.readStandardOutput("docker-machine ip "+ machineName)[0];
+    public String getIpAddress() {
+        return docker.readStandardOutput("docker-machine ip "+ docker.getMachineName())[0];
     }
 }

@@ -20,8 +20,13 @@ public class Docker {
 
         System.out.println(commandsWithArguments);
         System.out.println(Arrays.asList(strings).stream().collect(Collectors.joining("\n")));
+        System.out.println("*************");
 
         return strings;
+    }
+
+    public String getMachineName() {
+        return machineName;
     }
 
     private String[] readStandardOutput(String[] commands) {
@@ -79,5 +84,4 @@ public class Docker {
             throw new RuntimeException(e);
         }
     }
-
 }
