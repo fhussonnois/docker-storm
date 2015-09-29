@@ -11,14 +11,12 @@ public class AppTests{
 
     public static final String MACHINE_NAME = "default";
     private static List<String> processNames;
-    private static Docker docker;
 
     @BeforeClass
     public static void setUp() throws Exception {
         System.out.println("^^^^^^^^^^^^^^^^^^^");
         App.main(new String[]{MACHINE_NAME});
-        docker = new Docker(MACHINE_NAME);
-        processNames = new DockerProcessList(docker).getProcessNames();
+        processNames = new DockerProcessList(new Docker(MACHINE_NAME, new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).getProcessNames();
     }
 
     @Test
@@ -38,7 +36,7 @@ public class AppTests{
         @BeforeClass
         public static void setUp() throws Exception {
             System.out.println("###############");
-            configurationSettings = new NimbusLogs(docker).toList();
+            configurationSettings = new NimbusLogs(new Docker(MACHINE_NAME, new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).toList();
         }
 
         @Test

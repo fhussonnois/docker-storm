@@ -3,13 +3,11 @@ import java.util.Map;
 public class Docker extends ProcessWrapper {
 
     private final String machineName;
+    private final DockerMachine dockerMachine;
 
-    public Docker(String machineName) {
+    public Docker(String machineName, DockerMachine dockerMachine) {
         this.machineName = machineName;
-    }
-
-    public String getMachineName() {
-        return machineName;
+        this.dockerMachine = dockerMachine;
     }
 
     @Override
@@ -20,8 +18,8 @@ public class Docker extends ProcessWrapper {
     }
 
     private void setEnvironment(Map<String, String> env) {
-        new ProcessWrapper()
-                .readStandardOutput("docker-machine env --shell=cmd " + this.machineName)
+        dockerMachine
+                .getEnvironmentSettings()
                 .stream()
                 .forEach(outputLine -> set(env, outputLine));
     }
