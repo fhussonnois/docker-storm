@@ -9,5 +9,6 @@ public class App {
                 .clear();
 
         new Zookeeper(ipAddress, docker).start();
+        new Nimbus(ipAddress, docker).start();
     }
 }
