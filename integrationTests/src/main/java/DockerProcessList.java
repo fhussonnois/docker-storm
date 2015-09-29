@@ -9,8 +9,8 @@ public class DockerProcessList {
         this.docker = docker;
     }
 
-    public List<String> getProcessNames() {
-        return docker.readStandardOutput("docker ps -a")
+    public List<String> getProcessNames(final String arguments) {
+        return docker.readStandardOutput("docker ps" + arguments)
                 .stream()
                 .map(x -> new DockerProcess(x).getName())
                 .skip(1)

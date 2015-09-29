@@ -8,7 +8,7 @@ public class DockerEnvironment {
     }
 
     public void clear() {
-        dockerProcessList.getProcessNames()
+        dockerProcessList.getProcessNames(" -a")
                 .stream()
                 .forEach(processName -> {
                     System.out.println("stopping and removing " + processName);
