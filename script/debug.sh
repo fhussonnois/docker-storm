@@ -6,7 +6,7 @@ STORM_HOME=/c/_git/openSource/docker-storm
 
 cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
 
-usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer]"
+usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer] --storm.options key1:val1 key2:val2 ... keyN:valN \n     where key1, key2, ..., keyN are from https://github.com/apache/storm/blob/master/conf/defaults.yaml \n and any strings in val1...N are escaped with quotes. e.g.  worker.childopts:\"\\\"-Xmx768m\\\"\" "
 
 if [ $# -lt 1 ]; then
  echo $usage >&2;
@@ -20,6 +20,7 @@ create_supervisor_conf () {
     echo "Create supervisord configuration for storm daemon $1"
 }
 
+anyDaemonsSpecified=0
 processingDaemons=0
 processingStormOptions=0
 
@@ -39,6 +40,7 @@ while [[ $# > 0 ]] ; do
 	fi	
 	
 	if [ $processingDaemons -eq 1 ] ; then
+		anyDaemonsSpecified=1
 		create_supervisor_conf $1
 	fi
 	
@@ -49,6 +51,11 @@ while [[ $# > 0 ]] ; do
 	shift
 	
 done
+
+if [ $anyDaemonsSpecified -eq 0 ]; then
+	echo -e $usage
+    exit 1;
+fi
 
 
 # Set nimbus address to localhost by default
