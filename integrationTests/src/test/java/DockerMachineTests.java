@@ -6,9 +6,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DockerMachineTests {
 
+    public static final String MACHINE_NAME = "default";
+
     @Test
     public void ipAddressMatchesExpectedRegEx() throws Exception {
-        final String ipAddress = new DockerMachine().getIpAddressOf("default");
+        final String ipAddress = new DockerMachine(new Docker(MACHINE_NAME)).getIpAddressOf(MACHINE_NAME);
 
         final boolean isAnIpAddress = matches("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}" +
                 "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", ipAddress);
@@ -16,3 +18,4 @@ public class DockerMachineTests {
         assertThat(isAnIpAddress, is(true));
     }
 }
+
