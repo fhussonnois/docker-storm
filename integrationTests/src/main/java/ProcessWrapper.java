@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProcessWrapper{
-    public String[] readStandardOutput(String commandsWithArguments) {
+    public List<String> readStandardOutput(String commandsWithArguments) {
         final String[] strings = readStandardOutput(commandsWithArguments.split(" "));
 
         System.out.println(commandsWithArguments);
-        System.out.println(Arrays.asList(strings).stream().collect(Collectors.joining("\n")));
+        final List<String> result = Arrays.asList(strings);
+        System.out.println(result.stream().collect(Collectors.joining("\n")));
         System.out.println("*************");
 
-        return strings;
+        return result;
     }
 
     private String[] readStandardOutput(String[] commands) {

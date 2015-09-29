@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +10,7 @@ public class DockerProcessList {
     }
 
     public List<String> getProcessNames() {
-        return Arrays.asList(docker.readStandardOutput("docker ps -a"))
+        return docker.readStandardOutput("docker ps -a")
                 .stream()
                 .map(x -> new DockerProcess(x).getName())
                 .skip(1)

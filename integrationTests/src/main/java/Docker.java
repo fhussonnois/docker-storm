@@ -13,14 +13,27 @@ public class Docker extends ProcessWrapper {
     }
 
     @Override
-    protected Process getProcess(String... commands){
+    protected Process getProcess(String... commands) {
         ProcessBuilder pb = new ProcessBuilder(commands);
-        Map<String, String> env = pb.environment();
-        env.put("DOCKER_TLS_VERIFY", "1");
-        env.put("DOCKER_HOST", "tcp://192.168.99.100:2376");
-        env.put("DOCKER_CERT_PATH", "C:\\Users\\mweliczko\\.docker\\machine\\machines\\default");
-        env.put("DOCKER_MACHINE_NAME", machineName);
-
+        setEnvironment(pb.environment());
         return startProcess(pb);
+    }
+
+    private void setEnvironment(Map<String, String> env) {
+        new ProcessWrapper()
+                .readStandardOutput("docker-machine env --shell=cmd " + this.machineName)
+                .stream()
+                .forEach(outputLine -> set(env, outputLine));
+    }
+
+    private void set(Map<String, String> env, String outputLine) {
+        final String[] keyValuePair = outputLine.replace("set ", "").split("=");
+        if (hasKeyValuePair(keyValuePair)) {
+            env.put(keyValuePair[0], keyValuePair[1]);
+        }
+    }
+
+    private boolean hasKeyValuePair(String[] keyValuePair) {
+        return keyValuePair.length > 1;
     }
 }

@@ -6,6 +6,6 @@ public class DockerMachine {
     }
 
     public String getIpAddress() {
-        return new ProcessWrapper().readStandardOutput("docker-machine ip "+ docker.getMachineName())[0];
+        return new ProcessWrapper().readStandardOutput("docker-machine ip "+ docker.getMachineName()).get(0);
     }
 }
