@@ -14,6 +14,6 @@ public class DockerMachine {
     }
 
     public List<String> getEnvironmentSettings() {
-        return processWrapper.readStandardOutput("docker-machine env --shell=cmd " + this.machineName);
+        return processWrapper.readStandardOutput("docker-machine env --shell=cmd " + machineName);
     }
 }
