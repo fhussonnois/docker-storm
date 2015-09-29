@@ -11,7 +11,6 @@ public class ProcessWrapper{
 
         final List<String> result = readStandardOutput(commandsWithArguments.split(" "));
 
-//        System.out.println(result.stream().collect(Collectors.joining("\n")));
         System.out.println("*************");
 
         return result;

@@ -11,8 +11,6 @@ public class App {
         new Zookeeper(ipAddress, docker).start();
         new Nimbus(ipAddress, docker).start();
 
-        sleep(20);
-
         new NimbusLogs(docker).toList()
         .stream()
         .forEach(System.out::println);
