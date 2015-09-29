@@ -33,14 +33,7 @@ public class ProcessWrapper{
     }
 
     protected Process getProcess(String... commands) {
-        ProcessBuilder pb = new ProcessBuilder(commands);
-//        Map<String, String> env = pb.environment();
-//        env.put("DOCKER_TLS_VERIFY", "1");
-//        env.put("DOCKER_HOST", "tcp://192.168.99.100:2376");
-//        env.put("DOCKER_CERT_PATH", "C:\\Users\\mweliczko\\.docker\\machine\\machines\\default");
-//        env.put("DOCKER_MACHINE_NAME", machineName);
-
-        return startProcess(pb);
+        return startProcess(new ProcessBuilder(commands));
     }
 
     private void failIfError(Process proc) {
