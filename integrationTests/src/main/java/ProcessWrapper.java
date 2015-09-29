@@ -2,23 +2,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProcessWrapper{
     public List<String> readStandardOutput(String commandsWithArguments) {
-        final String[] strings = readStandardOutput(commandsWithArguments.split(" "));
-
         System.out.println(commandsWithArguments);
-        final List<String> result = Arrays.asList(strings);
-        System.out.println(result.stream().collect(Collectors.joining("\n")));
+
+        final List<String> result = readStandardOutput(commandsWithArguments.split(" "));
+
+//        System.out.println(result.stream().collect(Collectors.joining("\n")));
         System.out.println("*************");
 
         return result;
     }
 
-    private String[] readStandardOutput(String[] commands) {
+    private List<String> readStandardOutput(String[] commands) {
         final Process process = this.getProcess(commands);
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
@@ -29,7 +28,7 @@ public class ProcessWrapper{
             output.add(s);
         }
 
-        return output.toArray(new String[output.size()]);
+        return output;
     }
 
     protected Process getProcess(String... commands) {
@@ -38,14 +37,24 @@ public class ProcessWrapper{
 
     private void failIfError(Process proc) {
         BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-
         List<String> errors = new ArrayList<>();
-        String s;
-        while ((s = getLine(stdError)) != null) {
-            errors.add(s);
+
+        if(isReady(stdError)) {
+            String s;
+            while ((s = getLine(stdError)) != null) {
+                errors.add(s);
+            }
+            if (errors.size() > 0) {
+                throw new RuntimeException(errors.stream().collect(Collectors.joining("\n")));
+            }
         }
-        if(errors.size() > 0){
-            throw new RuntimeException(errors.stream().collect(Collectors.joining("\n")));
+    }
+
+    private boolean isReady(BufferedReader stdError){
+        try {
+            return stdError.ready();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

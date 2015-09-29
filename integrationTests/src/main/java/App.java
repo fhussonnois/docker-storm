@@ -10,5 +10,19 @@ public class App {
 
         new Zookeeper(ipAddress, docker).start();
         new Nimbus(ipAddress, docker).start();
+
+        sleep(20);
+
+        new NimbusLogs(docker).toList()
+        .stream()
+        .forEach(System.out::println);
+    }
+
+    private static void sleep(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
