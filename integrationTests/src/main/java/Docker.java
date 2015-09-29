@@ -2,11 +2,9 @@ import java.util.Map;
 
 public class Docker extends ProcessWrapper {
 
-    private final String machineName;
     private final DockerMachine dockerMachine;
 
-    public Docker(String machineName, DockerMachine dockerMachine) {
-        this.machineName = machineName;
+    public Docker(DockerMachine dockerMachine) {
         this.dockerMachine = dockerMachine;
     }
 

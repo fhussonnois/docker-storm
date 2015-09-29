@@ -4,7 +4,7 @@ public class App {
 
         final DockerMachine dockerMachine = new DockerMachine(machineName, new ProcessWrapper());
         final String ipAddress = dockerMachine.getIpAddress();
-        final Docker docker = new Docker(machineName, dockerMachine);
+        final Docker docker = new Docker(dockerMachine);
 
         new DockerEnvironment(docker, new DockerProcessList(docker))
                 .clear();

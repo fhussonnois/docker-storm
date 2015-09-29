@@ -16,7 +16,7 @@ public class AppTests{
     public static void setUp() throws Exception {
         System.out.println("^^^^^^^^^^^^^^^^^^^");
         App.main(new String[]{MACHINE_NAME});
-        processNames = new DockerProcessList(new Docker(MACHINE_NAME, new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).getProcessNames();
+        processNames = new DockerProcessList(new Docker(new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).getProcessNames();
     }
 
     @Test
@@ -36,7 +36,7 @@ public class AppTests{
         @BeforeClass
         public static void setUp() throws Exception {
             System.out.println("###############");
-            configurationSettings = new NimbusLogs(new Docker(MACHINE_NAME, new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).toList();
+            configurationSettings = new NimbusLogs(new Docker(new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).toList();
         }
 
         @Test
