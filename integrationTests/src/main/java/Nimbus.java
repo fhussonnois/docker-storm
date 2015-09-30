@@ -18,9 +18,14 @@ public class Nimbus {
                 " " +
                 "-d " + dockerStormContainerName +
                 " --daemon nimbus ui logviewer " +
-//                "--storm.options nimbus.childopts:\\\"-Xmx1024m\\\" " +
-//                "ui.childopts:\\\"-Xmx768m\\\" " +
-//                "logviewer.childopts:\\\"-Xmx128m\\\"" +
+                "--storm.options " +
+                "\"" +
+                "logviewer.childopts: \\\"-Xmx128m\\\"" +
+                "\\n" +
+                "ui.childopts: \\\"-Xmx768m\\\"" +
+                "\\n" +
+                "nimbus.childopts: \\\"-Xmx1024m\\\"" +
+                "\"" +
                 ""));
     }
 }
