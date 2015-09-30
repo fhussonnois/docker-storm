@@ -13,6 +13,9 @@ public class App {
 //        new BuildStorm(docker).start(dockerStormContainerName);
 
         new Zookeeper(ipAddress, docker).start();
+
+        new KafkaTopic(ipAddress, docker).create("mikeTestInsideDocker");
+
         new Nimbus(ipAddress, docker).start(dockerStormContainerName);
 
         new NimbusMonitor(docker).waitToStart();
