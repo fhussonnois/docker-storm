@@ -4,12 +4,10 @@ set -e
 
 STORM_HOME=/c/_git/openSource/docker-storm
 
-cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
-
-usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer] --storm.options key1:val1 key2:val2 ... keyN:valN \n     where key1, key2, ..., keyN are from https://github.com/apache/storm/blob/master/conf/defaults.yaml \n and any strings in val1...N are escaped with quotes. e.g.  worker.childopts:\"\\\"-Xmx768m\\\"\" "
+usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer] --storm.options \"key1: 2\\\nkey2: 3\\\nkey3: \\\"someStringValue\\\"\" \n     where key1, key2, ..., keyN are from https://github.com/apache/storm/blob/master/conf/defaults.yaml \n and any strings in val1...N are escaped with quotes. e.g.  \"worker.childopts: \\\"-Xmx768m\\\"\" "
 
 if [ $# -lt 1 ]; then
- echo $usage >&2;
+ echo -e $usage >&2;
  exit 2;
 fi
 
@@ -19,6 +17,8 @@ daemons=(nimbus, drpc, supervisor, ui, logviewer)
 create_supervisor_conf () {
     echo "Create supervisord configuration for storm daemon $1"
 }
+
+cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
 
 anyDaemonsSpecified=0
 processingDaemons=0
@@ -32,6 +32,7 @@ while [[ $# > 0 ]] ; do
 		shift
 		continue
 	fi
+	
 	if [ "$1" == "--storm.options" ]; then
 		processingStormOptions=1
 		processingDaemons=0
@@ -45,7 +46,10 @@ while [[ $# > 0 ]] ; do
 	fi
 	
 	if [ $processingStormOptions -eq 1 ] ; then
-		echo $1 >> $STORM_HOME/conf/storm.yaml
+		echo -e "Storm Option:"
+		echo -e "$1"
+	
+		echo -e $1 >> $STORM_HOME/conf/storm.yaml
 	fi
 	
 	shift
@@ -81,8 +85,6 @@ fi
 if [ ! -z "$ZK_PORT_2181_TCP_ADDR" ]; then
   export ZOOKEEPER_ADDR=$ZK_PORT_2181_TCP_ADDR;
 fi
-
-
 
 sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_HOME/conf/storm.yaml
