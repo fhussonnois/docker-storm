@@ -4,16 +4,28 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NimbusLogs {
+public class NimbusMonitor {
     public static final String SEARCH_STRING = "Starting Nimbus with conf ";
     private final Docker docker;
+    private List<ConfigurationSetting> configurationSettings;
 
-    public NimbusLogs(Docker docker) {
+    public NimbusMonitor(Docker docker) {
         this.docker = docker;
     }
 
-    public List<ConfigurationSetting> toList() {
-        return getConfigurationSettings(convertToValidJson());
+    public void waitToStart(){
+        if(haveYetToConfirmNimbusHasStarted()){
+            getConfigSettings();
+        }
+    }
+
+    public List<ConfigurationSetting> getConfigSettings() {
+        if(haveYetToConfirmNimbusHasStarted()) configurationSettings = getConfigurationSettings(convertToValidJson());
+        return configurationSettings;
+    }
+
+    private boolean haveYetToConfirmNimbusHasStarted() {
+        return configurationSettings == null;
     }
 
     private List<ConfigurationSetting> getConfigurationSettings(String validJson) {

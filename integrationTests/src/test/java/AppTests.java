@@ -31,12 +31,12 @@ public class AppTests{
 
     public static class NimbusLogsTests{
 
-        private static List<NimbusLogs.ConfigurationSetting> configurationSettings;
+        private static List<NimbusMonitor.ConfigurationSetting> configurationSettings;
 
         @BeforeClass
         public static void setUp() throws Exception {
             System.out.println("###############");
-            configurationSettings = new NimbusLogs(new Docker(new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).toList();
+            configurationSettings = new NimbusMonitor(new Docker(new DockerMachine(MACHINE_NAME,new ProcessWrapper()))).getConfigSettings();
         }
 
         @Test
