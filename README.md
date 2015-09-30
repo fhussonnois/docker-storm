@@ -19,7 +19,16 @@ docker run -p 2181:2181 -p 2888:2888 -p 3888:3888 -h zookeeper –-name="zookeep
 
 The image contains an **ENTRYPOINT** for running one container per storm daemon as follow:
   
-```docker run [OPTIONS] --link zookeeper:zk -d fhuz/docker-storm --daemon (nimbus, drpc, supevisor, ui, logviewer)```  
+```
+docker run [OPTIONS] --link zookeeper:zk -d fhuz/docker-storm --daemon (nimbus, drpc, supervisor, ui, logviewer) \
+     [--storm.options \"key1: 2\nkey2: 3\nkey3: \"someStringValue\"\"] \
+```  
+
+--storm.options is optional. 
+key1...N are from [Storm's Config Settings](https://github.com/apache/storm/blob/master/conf/defaults.yaml)
+and any strings in val1...N must be escaped with quotes. e.g.  \"worker.childopts: \"-Xmx768m\"\" 
+Because the value of this parameter will directly be appended to conf/storm.yaml, each key and value pair should be separated by a \n
+This was inspired by a need to specify the memory footprint of a specific Storm Daemon.
 
 For instance to run Nimbus :
 
