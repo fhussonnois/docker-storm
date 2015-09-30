@@ -2,7 +2,7 @@
 
 set -e
 
-usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer] --storm.options key1:val1 key2:val2 ... keyN:valN \n     where key1, key2, ..., keyN are from https://github.com/apache/storm/blob/master/conf/defaults.yaml \n and any strings in val1...N are escaped with quotes. e.g.  worker.childopts:\"\"-Xmx768m\"\" "
+usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer] --storm.options \"key1: 2\\\nkey2: 3\\\nkey3: \\\"someStringValue\\\"\" \n     where key1, key2, ..., keyN are from https://github.com/apache/storm/blob/master/conf/defaults.yaml \n and any strings in val1...N are escaped with quotes. e.g.  \"worker.childopts: \\\"-Xmx768m\\\"\" "
 
 if [ $# -lt 1 ]; then
  echo -e $usage >&2;
@@ -45,9 +45,10 @@ while [[ $# > 0 ]] ; do
 	fi
 	
 	if [ $processingStormOptions -eq 1 ] ; then
-		echo "Storm Option: $1"
+		echo -e "Storm Option:"
+		echo -e "$1"
 	
-		# echo $1 >> $STORM_HOME/conf/storm.yaml
+		echo -e $1 >> $STORM_HOME/conf/storm.yaml
 	fi
 	
 	shift
@@ -87,11 +88,6 @@ fi
 sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%ui_port%/$UI_PORT/g $STORM_HOME/conf/storm.yaml
-
-
-echo "nimbus.childopts: \"-Xmx1024m\"" >> $STORM_HOME/conf/storm.yaml
-echo "ui.childopts: \"-Xmx768m\"" >> $STORM_HOME/conf/storm.yaml
-echo "logviewer.childopts: \"-Xmx128m\"" >> $STORM_HOME/conf/storm.yaml
 
 supervisord
 
