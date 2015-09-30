@@ -13,5 +13,9 @@ public class BuildStorm {
         docker.readStandardOutput("docker build -t " + dockerStormContainerName + " C:\\_git\\openSource\\docker-storm")
                 .stream()
                 .forEach(System.out::println);
+
+        docker.readStandardOutput("docker push " + dockerStormContainerName)
+                .stream()
+                .forEach(System.out::println);
     }
 }

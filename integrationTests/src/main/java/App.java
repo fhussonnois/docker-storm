@@ -10,7 +10,7 @@ public class App {
                 .clear();
 
         final String dockerStormContainerName = "mweliczko/docker-storm";
-//        new BuildStorm(docker).start(dockerStormContainerName);
+        new BuildStorm(docker).start(dockerStormContainerName);
 
         new Zookeeper(ipAddress, docker).start();
 
