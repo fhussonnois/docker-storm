@@ -45,7 +45,7 @@ while [[ $# > 0 ]] ; do
 	fi
 	
 	if [ $processingStormOptions -eq 1 ] ; then
-		echo -e "Storm Option:"
+		echo -e "Storm Options:"
 		echo -e "$1"
 	
 		echo -e $1 >> $STORM_HOME/conf/storm.yaml
