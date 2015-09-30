@@ -41,17 +41,17 @@ public class AppTests{
 
         @Test
         public void nimbusChildOptsIsSet() throws Exception {
-            assertThat(getValue("nimbus.childopts"), is("\"-Xmx768m\""));
+            assertThat(getValue("nimbus.childopts"), is("\"-Xmx128m\""));
         }
 
         @Test
         public void uiChildOptsIsSet() throws Exception {
-            assertThat(getValue("ui.childopts"), is("\"-Xmx768m\""));
+            assertThat(getValue("ui.childopts"), is("\"-Xmx128m\""));
         }
 
         @Test
         public void logviewerChildOptsIsSet() throws Exception {
-            assertThat(getValue("logviewer.childopts"), is("\"-Xmx128m\""));
+            assertThat(getValue("logviewer.childopts"), is("\"-Xmx56m\""));
         }
 
         private String getValue(String setting) {

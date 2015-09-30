@@ -20,11 +20,11 @@ public class Nimbus {
                 " --daemon nimbus ui logviewer " +
                 "--storm.options " +
                 "\"" +
-                "logviewer.childopts: \\\"-Xmx128m\\\"" +
+                "logviewer.childopts: \\\"-Xmx56m\\\"" +
                 "\\n" +
-                "ui.childopts: \\\"-Xmx768m\\\"" +
+                "ui.childopts: \\\"-Xmx128m\\\"" +
                 "\\n" +
-                "nimbus.childopts: \\\"-Xmx768m\\\"" +
+                "nimbus.childopts: \\\"-Xmx128m\\\"" +
                 "\"" +
                 ""));
     }
