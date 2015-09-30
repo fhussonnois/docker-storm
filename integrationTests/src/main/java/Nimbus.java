@@ -24,7 +24,7 @@ public class Nimbus {
                 "\\n" +
                 "ui.childopts: \\\"-Xmx768m\\\"" +
                 "\\n" +
-                "nimbus.childopts: \\\"-Xmx1024m\\\"" +
+                "nimbus.childopts: \\\"-Xmx768m\\\"" +
                 "\"" +
                 ""));
     }

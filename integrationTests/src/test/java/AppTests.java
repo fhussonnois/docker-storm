@@ -41,7 +41,7 @@ public class AppTests{
 
         @Test
         public void nimbusChildOptsIsSet() throws Exception {
-            assertThat(getValue("nimbus.childopts"), is("\"-Xmx1024m\""));
+            assertThat(getValue("nimbus.childopts"), is("\"-Xmx768m\""));
         }
 
         @Test
