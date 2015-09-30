@@ -29,6 +29,11 @@ public class AppTests{
         assertThat(processNames, hasItem("nimbus"));
     }
 
+    @Test
+    public void supervisor1WasStarted() throws Exception {
+        assertThat(processNames, hasItem("supervisor1"));
+    }
+
     public static class NimbusLogsTests{
 
         private static List<NimbusMonitor.ConfigurationSetting> configurationSettings;
