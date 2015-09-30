@@ -18,5 +18,9 @@ public class App {
         new NimbusMonitor(docker).waitToStart();
 
         new Supervisor(ipAddress, docker).start(dockerStormContainerName);
+
+        new StormSubmission(ipAddress, docker).start();
+
+        new StormTopology(ipAddress, docker).list();
     }
 }
