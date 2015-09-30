@@ -31,6 +31,7 @@ while [[ $# > 0 ]] ; do
 		shift
 		continue
 	fi
+	
 	if [ "$1" == "--storm.options" ]; then
 		processingStormOptions=1
 		processingDaemons=0
@@ -44,7 +45,9 @@ while [[ $# > 0 ]] ; do
 	fi
 	
 	if [ $processingStormOptions -eq 1 ] ; then
-		echo $1 >> $STORM_HOME/conf/storm.yaml
+		echo "Storm Option: $1"
+	
+		# echo $1 >> $STORM_HOME/conf/storm.yaml
 	fi
 	
 	shift
@@ -81,11 +84,14 @@ if [ ! -z "$ZK_PORT_2181_TCP_ADDR" ]; then
   export ZOOKEEPER_ADDR=$ZK_PORT_2181_TCP_ADDR;
 fi
 
-cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
-
 sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_HOME/conf/storm.yaml
 sed -i s/%ui_port%/$UI_PORT/g $STORM_HOME/conf/storm.yaml
+
+
+echo "nimbus.childopts: \"-Xmx1024m\"" >> $STORM_HOME/conf/storm.yaml
+echo "ui.childopts: \"-Xmx768m\"" >> $STORM_HOME/conf/storm.yaml
+echo "logviewer.childopts: \"-Xmx128m\"" >> $STORM_HOME/conf/storm.yaml
 
 supervisord
 

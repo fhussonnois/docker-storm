@@ -2,8 +2,7 @@ public class App {
     public static void main(String[] args) {
         final String machineName = args[0];
 
-        final ProcessWrapper processWrapper = new ProcessWrapper();
-        final DockerMachine dockerMachine = new DockerMachine(machineName, processWrapper);
+        final DockerMachine dockerMachine = new DockerMachine(machineName, new ProcessWrapper());
         final String ipAddress = dockerMachine.getIpAddress();
         final Docker docker = new Docker(dockerMachine);
 

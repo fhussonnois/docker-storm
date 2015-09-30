@@ -53,10 +53,22 @@ public class NimbusLogs {
                 .stream()
                 .collect(Collectors.joining("\n"));
         if(logContents.isEmpty()){
+            verifyDaemonsAreRunning();
             waitForNimbusToStart(2);
             return getEntireLogFileContents(++attemptNumber);
         }
         return logContents;
+    }
+
+    private void verifyDaemonsAreRunning() {
+        final String logContents = docker.readStandardOutput("docker logs nimbus")
+                .stream()
+                .collect(Collectors.joining("\n"));
+        System.out.println(logContents);
+
+        if(logContents.contains("exit status 1; not expected")){
+            throw new RuntimeException("the app is broken");
+        }
     }
 
     private void waitForNimbusToStart(int seconds) {
