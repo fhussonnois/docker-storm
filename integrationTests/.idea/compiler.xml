@@ -25,6 +25,8 @@
         <module name="integrationTests" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="integrationTests" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
