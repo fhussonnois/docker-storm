@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# Enter posix mode for bash
+set -o posix
 set -e
 
 usage="Usage: startup.sh [--daemon (nimbus|drpc|supervisor|ui|logviewer]"
@@ -60,11 +62,33 @@ if [ ! -z "$ZK_PORT_2181_TCP_ADDR" ]; then
   export ZOOKEEPER_ADDR=$ZK_PORT_2181_TCP_ADDR;
 fi
 
-cp $STORM_HOME/conf/storm.yaml.template $STORM_HOME/conf/storm.yaml
+function init_storm_yaml() {
+    STORM_YAML=$STORM_HOME/conf/storm.yaml
+    cp $STORM_HOME/conf/storm.yaml.template $STORM_YAML
 
-sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_HOME/conf/storm.yaml
-sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_HOME/conf/storm.yaml
-sed -i s/%ui_port%/$UI_PORT/g $STORM_HOME/conf/storm.yaml
+    sed -i s/%zookeeper%/$ZOOKEEPER_ADDR/g $STORM_YAML
+    sed -i s/%nimbus%/$NIMBUS_ADDR/g $STORM_YAML
+    sed -i s/%ui_port%/$UI_PORT/g $STORM_YAML
+    for var in `( set -o posix ; set ) | grep CONFIG_`; do
+        name=${var%"="*}
+        confValue=${var#*"="}
+        confName=`echo ${name#*CONFIG_} | awk '{print tolower($0)}'`
+        confName=${confName/_/\.}
+        echo "Update storm.yaml with $confName=$confValue"
+        n=`echo $(grep -n "${confName}:" "${STORM_YAML}" | cut -d : -f 1)`
+        echo "n=$n"
+        if [ ! -z "$n" ]; then
+            echo test
+           sed -i "${n}s|.*|$confName: $confValue|g" $STORM_YAML
+        else
+           echo ${STORM_YAML}
+           $(echo "$confName: $confValue" >> ${STORM_YAML})
+        fi
+        echo "Update storm.yaml with $confName: $confValue"
+    done
+}
+
+init_storm_yaml
 
 supervisord
 

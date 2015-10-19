@@ -31,6 +31,16 @@ docker run \
       -d fhuz/docker-storm \  
       --daemon nimbus
 ```
+
+You can override storm default configuration by passing environment variables to the running container as follows : 
+
+```
+ --env "CONFIG_WORKER_CHILDOPTS=-Xmx512m"
+```
+
+`CONFIG_WORKER_CHILDOPTS` will be add to storm.yaml as `worker.childopts`.
+
+
 Docker Compose
 ---
 **Pre-Requisites:** [Install Compose](https://docs.docker.com/compose/#installation-and-set-up)
