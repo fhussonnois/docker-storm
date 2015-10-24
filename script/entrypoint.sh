@@ -73,18 +73,15 @@ function init_storm_yaml() {
         name=${var%"="*}
         confValue=${var#*"="}
         confName=`echo ${name#*CONFIG_} | awk '{print tolower($0)}'`
-        confName=${confName/_/\.}
-        echo "Update storm.yaml with $confName=$confValue"
-        n=`echo $(grep -n "${confName}:" "${STORM_YAML}" | cut -d : -f 1)`
-        echo "n=$n"
+        confName=`echo $confName | sed -r 's/_/./g'`
+        n=`echo $(grep -n "^${confName}:" "${STORM_YAML}" | cut -d : -f 1)`
         if [ ! -z "$n" ]; then
-            echo test
+           echo "Override property $confName=$confValue (storm.yaml)"
            sed -i "${n}s|.*|$confName: $confValue|g" $STORM_YAML
         else
-           echo ${STORM_YAML}
+           echo "Add property $confName=$confValue (storm.yaml)"
            $(echo "$confName: $confValue" >> ${STORM_YAML})
         fi
-        echo "Update storm.yaml with $confName: $confValue"
     done
 }
 
