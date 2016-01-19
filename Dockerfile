@@ -3,7 +3,7 @@
 # VERSION      1.0
 
 # use the ubuntu base image provided by dotCloud
-FROM ubuntu:latest
+FROM ubuntu:15.10
 MAINTAINER Florian HUSSONNOIS, florian.hussonnois_gmail.com
 
 RUN apt-get update
