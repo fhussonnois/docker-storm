@@ -6,24 +6,24 @@
 FROM ubuntu:15.10
 MAINTAINER Florian HUSSONNOIS, florian.hussonnois_gmail.com
 
-RUN apt-get update
-RUN apt-get upgrade -y
+RUN apt-get update && \
+apt-get upgrade -y
 
 # Install Oracle JDK 8 and others useful packages
-RUN apt-get install -y python-software-properties software-properties-common
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
-
-# Accept the Oracle license before the installation
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections 
-RUN apt-get install -y oracle-java8-installer
-RUN apt-get update
+RUN apt-get install -y python-software-properties software-properties-common && \
+add-apt-repository -y ppa:webupd8team/java && \
+apt-get update && \
+echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
+apt-get install -y oracle-java8-installer && \
+apt-get clean autoclean && \
+apt-get autoremove -y && \
+apt-get install -y supervisor wget tar && \
+rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
 
 # Tells Supervisor to run interactively rather than daemonize
-RUN apt-get install -y supervisor wget tar 
 RUN echo [supervisord] | tee -a /etc/supervisor/supervisord.conf ; echo nodaemon=true | tee -a /etc/supervisor/supervisord.conf
 
-ENV STORM_VERSION 0.10.0
+ENV STORM_VERSION 1.0.1
 
 # Create storm group and user
 ENV STORM_HOME /usr/share/apache-storm
