@@ -24,11 +24,11 @@ The image contains an **ENTRYPOINT** for running one container per storm daemon 
 For instance to run Nimbus :
 
 ```
-docker run \  
-      --name="storm-nimbus" -h nimbus \  
-      --expose 6627 --expose 3772 --expose 3773 \  
-      --link zookeeper:zk \  
-      -d fhuz/docker-storm \  
+docker run \
+      --name="storm-nimbus" -h nimbus \
+      --expose 6627 --expose 3772 --expose 3773 \
+      --link zookeeper:zk \
+      -d fhuz/docker-storm \
       --daemon nimbus
 ```
 
